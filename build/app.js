@@ -12,8 +12,14 @@ var app = express();
 var dbUrl = "mongodb://localhost:27017/typerest";
 mongoose.connect(dbUrl, { useNewUrlParser: true });
 var db = mongoose.connection;
+// Convert body to json
+app.use(express.json());
 // Routing
 app.use('/api', apiRouter_1.default);
+app.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 // Listening on
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
